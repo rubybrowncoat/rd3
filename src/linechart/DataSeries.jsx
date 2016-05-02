@@ -99,17 +99,16 @@ module.exports = React.createClass({
 
     let gradients = [];
     const lines = props.data.map((series, idx) => {
+      let lineGradient = false;
       if (props.lineGradient) {
-        var lineGradient = this._createGradient(series, idx);
+        lineGradient = this._createGradient(series, idx);
         gradients.push(lineGradient);
-
-        props.lineGradient = lineGradient;
       }
 
       return (
         <Line
           path={interpolatePath(series.values)}
-          stroke={ !!props.lineGradient ? "url(#" + props.lineGradient.props.id + ")" : props.colors(props.colorAccessor(series, idx)) }
+          stroke={ props.lineGradient ? "url(#" + lineGradient.props.id + ")" : props.colors(props.colorAccessor(series, idx)) }
           strokeWidth={series.strokeWidth}
           strokeDashArray={series.strokeDashArray}
           seriesName={series.name}
