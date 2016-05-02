@@ -23,17 +23,18 @@ module.exports = React.createClass({
       top: props.y,
       left: props.x,
       display,
-      opacity: 0.8,
+      opacity: 1 // 0.8,
     };
 
     // TODO: add 'right: 0px' style when tooltip is off the chart
     const tooltipStyles = {
-      position: 'absolute',
+      // position: 'absolute',
       backgroundColor: 'white',
+      color: 'black',
       border: '1px solid',
       borderColor: '#ddd',
       borderRadius: '2px',
-      padding: '10px',
+      padding: '5px', // 10px
       marginLeft: '10px',
       marginRight: '10px',
       marginTop: '-15px',
