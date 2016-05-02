@@ -66,7 +66,7 @@ module.exports = React.createClass({
     return (
       <linearGradient id={`line-gradient-#{idx}-${new Date().getTime()}`} x1="0%" x2="100%" y1="0%" y2="0%" gradientUnits="objectBoundingBox" spreadMethod="pad">
         {
-          gradientUnits.length ? gradientSteps.map(function(step) {
+          gradientSteps.length ? gradientSteps.map(function(step) {
             return (
               <stop key={step.step} offset={step.step + "%"} stopColor={step.color} />
             );
@@ -109,7 +109,7 @@ module.exports = React.createClass({
       return (
         <Line
           path={interpolatePath(series.values)}
-          stroke={props.lineGradient ? "url(#" + props.lineGradient.props.id + ")" : props.colors(props.colorAccessor(series, idx))}
+          stroke={ !!props.lineGradient ? "url(#" + props.lineGradient.props.id + ")" : props.colors(props.colorAccessor(series, idx)) }
           strokeWidth={series.strokeWidth}
           strokeDashArray={series.strokeDashArray}
           seriesName={series.name}
