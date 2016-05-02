@@ -18,6 +18,7 @@ module.exports = React.createClass({
   propTypes: {
     circleRadius: React.PropTypes.number,
     hoverAnimation: React.PropTypes.bool,
+    lineGradient: React.PropTypes.bool,
     margins: React.PropTypes.object,
     data: React.PropTypes.any, // TODO: prop types?
   },
@@ -29,6 +30,7 @@ module.exports = React.createClass({
       circleRadius: 3,
       className: 'rd3-linechart',
       hoverAnimation: true,
+      lineGradient: false,
       margins: { top: 10, right: 20, bottom: 50, left: 45 },
       xAxisClassName: 'rd3-linechart-xaxis',
       yAxisClassName: 'rd3-linechart-yaxis',
@@ -140,6 +142,7 @@ module.exports = React.createClass({
               interpolationType={props.interpolationType}
               colors={props.colors}
               colorAccessor={props.colorAccessor}
+              lineGradient={props.lineGradient}
               width={innerWidth}
               height={innerHeight}
               onMouseOver={this.onMouseOver}

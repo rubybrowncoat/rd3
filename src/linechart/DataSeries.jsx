@@ -17,6 +17,7 @@ module.exports = React.createClass({
     xAccessor: React.PropTypes.func,
     yAccessor: React.PropTypes.func,
     hoverAnimation: React.PropTypes.bool,
+    lineGradient: React.PropTypes.bool
   },
 
   getDefaultProps() {
@@ -26,7 +27,51 @@ module.exports = React.createClass({
       yAccessor: (d) => d.y,
       interpolationType: 'linear',
       hoverAnimation: false,
+      lineGradient: false
     };
+  },
+
+  _createGradient(series, idx) {
+    var xSeries = _.map(series.values, function(value) {
+      if (Object.prototype.toString.call(xAccessor(value)) === '[object Date]') {
+        return props.xScale(xAccessor(value).getTime());
+      } else {
+        return props.xScale(xAccessor(value));
+      }
+    });
+
+    var min = Math.min( ...xSeries );
+    var max = Math.max( ...xSeries );
+
+    var gradientSteps = _.map(series.values, function(value) {
+      var xValue;
+      if (Object.prototype.toString.call(xAccessor(value)) === '[object Date]') {
+        xValue = props.xScale(xAccessor(value).getTime());
+      } else {
+        xValue = props.xScale(xAccessor(value));
+      }
+
+      return {
+        step: 100 * ( (xValue - min) / (max - min) ),
+        color: props.colors(props.colorAccessor({
+          point: {
+            d: value
+          }
+        }))
+      };
+    });
+
+    return (
+      <linearGradient id={`line-gradient-#{idx}-${new Date().getTime()}`} x1="0%" x2="100%" y1="0%" y2="0%" gradientUnits="objectBoundingBox" spreadMethod="pad">
+        {
+          gradientUnits.length ? gradientSteps.map(function(step) {
+            return (
+              <stop key={step.step} offset={step.step + "%"} stopColor={step.color} />
+            );
+          }) : ''
+        }
+      </linearGradient>
+    );
   },
 
   _isDate(d, accessor) {
@@ -50,17 +95,26 @@ module.exports = React.createClass({
       interpolatePath.x(d => props.xScale(props.xAccessor(d)));
     }
 
-    const lines = props.data.map((series, idx) => (
+    let gradients = [];
+    const lines = props.data.map((series, idx) => {
+      if (props.lineGradient) {
+        var lineGradient = this._createGradient(series, idx);
+        gradients.push(lineGradient);
+
+        props.lineGradient = lineGradient;
+      }
+
+      return (
         <Line
           path={interpolatePath(series.values)}
-          stroke={props.colors(props.colorAccessor(series, idx))}
+          stroke={props.lineGradient ? "url(#" + props.lineGradient.props.id + ")" : props.colors(props.colorAccessor(series, idx))}
           strokeWidth={series.strokeWidth}
           strokeDashArray={series.strokeDashArray}
           seriesName={series.name}
           key={idx}
         />
       )
-    );
+    });
 
     const voronoi = d3.geom.voronoi()
       .x(d => xScale(d.coord.x))
@@ -106,6 +160,7 @@ module.exports = React.createClass({
       <g>
         <g>{regions}</g>
         <g>{lines}</g>
+        <g>{gradients}</g>
       </g>
     );
   },
