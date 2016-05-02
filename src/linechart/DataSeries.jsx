@@ -32,23 +32,25 @@ module.exports = React.createClass({
   },
 
   _createGradient(series, idx) {
-    var xSeries = _.map(series.values, function(value) {
-      if (Object.prototype.toString.call(xAccessor(value)) === '[object Date]') {
-        return props.xScale(xAccessor(value).getTime());
+    const props = this.props;
+
+    const xSeries = _.map(series.values, function(value) {
+      if (Object.prototype.toString.call(props.xAccessor(value)) === '[object Date]') {
+        return props.xScale(props.xAccessor(value).getTime());
       } else {
-        return props.xScale(xAccessor(value));
+        return props.xScale(props.xAccessor(value));
       }
     });
 
-    var min = Math.min( ...xSeries );
-    var max = Math.max( ...xSeries );
+    const min = Math.min( ...xSeries );
+    const max = Math.max( ...xSeries );
 
-    var gradientSteps = _.map(series.values, function(value) {
-      var xValue;
-      if (Object.prototype.toString.call(xAccessor(value)) === '[object Date]') {
-        xValue = props.xScale(xAccessor(value).getTime());
+    const gradientSteps = _.map(series.values, function(value) {
+      let xValue;
+      if (Object.prototype.toString.call(props.xAccessor(value)) === '[object Date]') {
+        xValue = props.xScale(props.xAccessor(value).getTime());
       } else {
-        xValue = props.xScale(xAccessor(value));
+        xValue = props.xScale(props.xAccessor(value));
       }
 
       return {
