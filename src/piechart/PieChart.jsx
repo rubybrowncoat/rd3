@@ -78,6 +78,9 @@ module.exports = React.createClass({
               onMouseOver={this.onMouseOver}
               onMouseLeave={this.onMouseLeave}
             />
+            <g className="rd3-piechart-children">
+              {...this.props.children}
+            </g>
           </g>
         </Chart>
         {(props.showTooltip ? <Tooltip {...this.state.tooltip} /> : null)}
