@@ -64,7 +64,7 @@ module.exports = React.createClass({
     });
 
     return (
-      <linearGradient id={`line-gradient-#{idx}-${new Date().getTime()}`} x1="0%" x2="100%" y1="0%" y2="0%" gradientUnits="objectBoundingBox" spreadMethod="pad">
+      <linearGradient key={`line-gradient-${idx}`} id={`line-gradient-${idx}-${new Date().getTime()}`} x1="0%" x2="100%" y1="0%" y2="0%" gradientUnits="objectBoundingBox" spreadMethod="pad">
         {
           gradientSteps.length ? gradientSteps.map(function(step) {
             return (

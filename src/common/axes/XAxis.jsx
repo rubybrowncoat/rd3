@@ -20,6 +20,7 @@ module.exports = React.createClass({
     tickStroke: React.PropTypes.string,
     xAxisClassName: React.PropTypes.string,
     xAxisLabel: React.PropTypes.string,
+    xAxisLabelFallen: React.PropTypes.bool,
     xAxisTickValues: React.PropTypes.array,
     xAxisOffset: React.PropTypes.number,
     xScale: React.PropTypes.func.isRequired,
@@ -39,6 +40,7 @@ module.exports = React.createClass({
       tickStroke: '#000',
       xAxisClassName: 'rd3-x-axis',
       xAxisLabel: '',
+      xAxisLabelFallen: false,
       xAxisLabelOffset: 10,
       xAxisOffset: 0,
       xOrient: 'bottom',
@@ -93,6 +95,7 @@ module.exports = React.createClass({
         <Label
           horizontalChart={props.horizontalChart}
           label={props.xAxisLabel}
+          fallen={props.xAxisLabelFallen}
           offset={props.xAxisLabelOffset}
           orient={props.xOrient}
           margins={props.margins}

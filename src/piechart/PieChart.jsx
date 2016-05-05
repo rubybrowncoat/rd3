@@ -79,7 +79,7 @@ module.exports = React.createClass({
               onMouseLeave={this.onMouseLeave}
             />
             <g className="rd3-piechart-children">
-              {...this.props.children}
+              {this.props.children}
             </g>
           </g>
         </Chart>

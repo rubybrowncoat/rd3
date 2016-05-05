@@ -11,6 +11,7 @@ module.exports = React.createClass({
     horizontalChart: React.PropTypes.bool,
     horizontalTransform: React.PropTypes.string,
     label: React.PropTypes.string.isRequired,
+    fallen: React.PropTypes.bool,
     width: React.PropTypes.number,
     strokeWidth: React.PropTypes.number,
     textAnchor: React.PropTypes.string,
@@ -20,6 +21,7 @@ module.exports = React.createClass({
   getDefaultProps() {
     return {
       horizontalTransform: 'rotate(270)',
+      fallen: false,
       strokeWidth: 0.01,
       textAnchor: 'middle',
       verticalTransform: 'rotate(0)',
@@ -36,6 +38,7 @@ module.exports = React.createClass({
     let transform;
     let x;
     let y;
+    let textAnchor = props.textAnchor;
     if (props.orient === 'top' || props.orient === 'bottom') {
       transform = props.verticalTransform;
       x = props.width / 2;
@@ -43,6 +46,11 @@ module.exports = React.createClass({
 
       if (props.horizontalChart) {
         transform = `rotate(180 ${x} ${y}) ${transform}`;
+      }
+
+      if (props.fallen) {
+        x = 0;
+        textAnchor = 'left';
       }
     } else {  // left, right
       transform = props.horizontalTransform;
@@ -52,13 +60,18 @@ module.exports = React.createClass({
       } else {
         y = props.offset;
       }
+
+      if (props.fallen) {
+        x = -props.height;
+        textAnchor = 'left';
+      }
     }
 
 
     return (
       <text
         strokeWidth={props.strokeWidth.toString()}
-        textAnchor={props.textAnchor}
+        textAnchor={textAnchor}
         transform={transform}
         y={y}
         x={x}
