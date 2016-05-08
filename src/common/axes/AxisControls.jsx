@@ -61,11 +61,15 @@ module.exports = React.createClass({
     let controls;
     if (props.controlValues) {
       controls = props.controlValues;
-    } else if (scale.controls) {
-      controls = scale.controls.apply(scale, props.controlArguments);
     } else {
-      controls = scale.domain();
+      controls = [];
     }
+
+    // if (scale.controls) {
+    //   controls = scale.controls.apply(scale, props.controlArguments);
+    // } else {
+    //   controls = scale.domain();
+    // }
 
     if (props.controlFormatting) {
       controlFormat = props.controlFormatting;

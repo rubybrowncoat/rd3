@@ -214,13 +214,18 @@ module.exports = React.createClass({
               y2={y2}
             />
             <text
+              className="tick-label"
               strokeWidth="0.01"
               dy={dy} x={x1} y={y1}
               style={{ stroke: props.tickTextStroke, fill: props.tickTextStroke }}
               textAnchor={textAnchor}
               {...optionalTextProps}
             >
-              {tickFormat(tick)}
+              { tickFormat(tick) ? new String(tickFormat(tick)).split('--').map((tickElement, idx) => (
+                <tspan x="0" dy="1.1em" className={`tick-label-tspan-${idx}`} key={`tick-label-tspan-${idx}`}>
+                  {tickElement}
+                </tspan>
+              )) : '' }
             </text>
           </g>
         ))
